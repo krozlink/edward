@@ -153,16 +153,8 @@ func (r *Runner) updateStatusDetail() {
 	r.status.StdoutLines = r.standardLog.Len()
 	r.status.StderrLines = r.errorLog.Len()
 
-	backendStatus, err := r.backendRunner.Status()
-	if err != nil {
-		log.Printf("could not save state: %v", err)
-		return
-	}
-	r.status.Ports = backendStatus.Ports
-	r.status.MemoryInfo = backendStatus.MemoryInfo
-
 	dir := r.DirConfig.StateDir
-	err = instance.SaveStatusForService(r.Service, r.instanceId, r.status, dir)
+	err := instance.SaveStatusForService(r.Service, r.instanceId, r.status, dir)
 	if err != nil {
 		log.Printf("could not save state: %v", err)
 	}
